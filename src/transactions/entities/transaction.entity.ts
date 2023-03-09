@@ -1,7 +1,7 @@
 import { Bank } from "src/banks/entities/bank.entity";
 import { Category } from "src/categories/entities/category.entity";
 import { BaseEntity } from "src/utils/BaseEntity";
-import { Column, CreateDateColumn, Entity, ManyToMany, ManyToOne, OneToMany } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany } from "typeorm";
 
 interface ITransaction{
     amount:number
@@ -25,6 +25,19 @@ export class Transaction extends BaseEntity implements ITransaction {
     @ManyToOne(type=>Bank,bank=>bank.transactions)
     bank:Bank
 
-    @ManyToMany(type=>Category,category=>category.transactions,{ onDelete: 'CASCADE' })
+    @ManyToMany(type=>Category,category=>category.transactions,{onDelete:"CASCADE"})
+    @JoinTable(
+        {
+            name: 'category_transaction',
+            joinColumn: {
+              name: 'transactionId',
+              referencedColumnName: 'id'
+            },
+            inverseJoinColumn: {
+              name: 'categoryId',
+              referencedColumnName: 'id'
+            }
+          }
+    )
     categories:Category[]
 }

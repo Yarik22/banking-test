@@ -1,8 +1,8 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { Allow } from 'class-validator';
+import { Allow, IsString } from 'class-validator';
 import { CreateCategoryDto } from './create-category.dto';
 
 export class UpdateCategoryDto extends PartialType(CreateCategoryDto) {
-    @Allow()
+    @IsString()
     name:string
 }

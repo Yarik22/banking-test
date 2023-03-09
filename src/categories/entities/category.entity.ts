@@ -11,7 +11,7 @@ export class Category extends BaseEntity implements ICategory {
     @Column()
     name:string
 
-    @ManyToMany(type=>Transaction,transaction=>transaction.categories)
+    @ManyToMany(type=>Transaction,transaction=>transaction.categories,{onDelete:"RESTRICT"})
     @JoinTable(
         {
             name: 'category_transaction',

@@ -41,9 +41,8 @@ export class TransactionsService {
     }
     const newBalance=bank.balance+data.amount
     await this.banksService.changeBalanceOfBank(bank.name,newBalance)
-    const transaction =  this.transactionRepository.create({...data,categories,bank})
-    this.transactionRepository.save(transaction)
-    return transaction
+    const candidate = this.transactionRepository.create({...data,categories,bank})
+    return await this.transactionRepository.save(candidate)
   }
   
   async getPaginatedTransations(queryData:PaginationDto):Promise<[Transaction[], number]>{
