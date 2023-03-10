@@ -12,8 +12,8 @@ export class CategoriesService {
     @InjectRepository(Category) private readonly categoryRepository:Repository<Category>
   ){}
   //Useful methods
-  async findCategoryByName(data:CreateCategoryDto):Promise<Category>{
-    return await this.categoryRepository.findOne({where:{name:data.name}})
+  async findCategoryByName(name:string):Promise<Category>{
+    return await this.categoryRepository.findOne({where:{name}})
   }
 
   async findAllCategoriesByIds(categoryIds: number[]): Promise<Category[]> {
@@ -42,7 +42,7 @@ export class CategoriesService {
 
   //API methods  
   async addCategory(data:CreateCategoryDto):Promise<Category>{
-    const candidate= await this.findCategoryByName(data)
+    const candidate= await this.findCategoryByName(data.name)
     if(candidate){
       throw new HttpException("This category is already exist",HttpStatus.CONFLICT)
     }
@@ -66,6 +66,10 @@ export class CategoriesService {
     const category = await this.categoryRepository.findOne({where:{id}})
     if(!category){
       throw new HttpException("Category is not found",HttpStatus.NOT_FOUND)
+    }
+    const candidate = await this.findCategoryByName(data.name)
+    if(candidate){
+      throw new HttpException("This category is already exist",HttpStatus.CONFLICT)
     }
     await this.categoryRepository.update(id,data)
     return await this.categoryRepository.findOne({where:{id}})

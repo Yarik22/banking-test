@@ -29,17 +29,17 @@ export class TransactionsController {
   @Post() 
   async createOrder(@Body() data:CreateTransactionDto) { 
     const transaction =  await this.transactionsService.createTransaction(data); 
-    // this.httpService 
-    //   .post(process.env.WEBHOOK_HTTP, data) 
-    //   .subscribe({ 
-    //     complete: () => { 
-    //       console.log('completed'); 
-    //     }, 
-    //     error: (err) => { 
-    //       console.log(err)
-    //     }, 
-    //   }); 
-      return transaction
+    this.httpService 
+      .post(process.env.WEBHOOK_HTTP, {...transaction,categories:[...data.categories]}) 
+      .subscribe({ 
+        complete: () => { 
+          console.log('completed'); 
+        }, 
+        error: (err) => { 
+          console.log(err)
+        }, 
+      }); 
+      return {...transaction,categories:data.categories}
  
   } 
   

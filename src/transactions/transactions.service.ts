@@ -88,6 +88,7 @@ export class TransactionsService {
     }
     await this.transactionRepository.delete(id)
     const newBalance=transaction.bank.balance-transaction.amount
+    transaction.bank.balance-=transaction.amount
     await this.banksService.changeBalanceOfBank(transaction.bank.name,newBalance)
     return transaction
     }
