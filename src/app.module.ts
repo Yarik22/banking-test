@@ -22,7 +22,7 @@ import { StatisticsModule } from './statistics/statistics.module';
           autoLoadEntities: true,
           synchronize: true,
         },
-), BanksModule, CategoriesModule, TransactionsModule, StatisticsModule,],
+), BanksModule, CategoriesModule, TransactionsModule, StatisticsModule],
   controllers: [],
   providers: [],
 })
