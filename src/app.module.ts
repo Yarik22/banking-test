@@ -21,7 +21,7 @@ import { StatisticsModule } from './statistics/statistics.module';
           database: process.env.POSTGRES_DB,
           autoLoadEntities: true,
           synchronize: true,
-        }
+        },
 ), BanksModule, CategoriesModule, TransactionsModule, StatisticsModule,],
   controllers: [],
   providers: [],

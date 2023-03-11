@@ -14,10 +14,10 @@ async function bootstrap() {
   const config = new DocumentBuilder()
   .setTitle('Banking api')
   .setDescription('Api crated as a test task for codico')
-  .setVersion('1.1')
+  .setVersion('1.2')
   .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('api/docs', app, document);
   await app.listen(PORT,()=>console.log(`Server started on port ${PORT}`))
 }
 bootstrap();
