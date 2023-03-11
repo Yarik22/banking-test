@@ -1,7 +1,7 @@
-import { HttpStatus, INestApplication } from "@nestjs/common";
-import { Test, TestingModule } from "@nestjs/testing";
-import { AppModule } from "../src/app.module";
-import { Category } from "src/categories/entities/category.entity";
+import { INestApplication, HttpStatus } from '@nestjs/common';
+import { TestingModule, Test } from '@nestjs/testing';
+import { AppModule } from 'src/app.module';
+import { Category } from 'src/categories/entities/category.entity';
 import * as request from 'supertest';
 
 
