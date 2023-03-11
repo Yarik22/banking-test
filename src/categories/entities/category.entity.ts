@@ -1,3 +1,4 @@
+import { ApiProperty } from "@nestjs/swagger";
 import { Transaction } from "src/transactions/entities/transaction.entity";
 import { BaseEntity } from "src/utils/BaseEntity";
 import { Entity, Column, OneToMany, ManyToMany, JoinTable } from "typeorm"
@@ -8,7 +9,10 @@ interface ICategory{
 
 @Entity()
 export class Category extends BaseEntity implements ICategory {
-    @Column()
+  @ApiProperty({example:"wood",description:"category name"})
+    @Column({
+      unique:true
+    })
     name:string
 
     @ManyToMany(type=>Transaction,transaction=>transaction.categories,{onDelete:"RESTRICT"})

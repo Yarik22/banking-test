@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { BanksModule } from './banks/banks.module';
 import { CategoriesModule } from './categories/categories.module';
 import { TransactionsModule } from './transactions/transactions.module';
@@ -25,7 +23,7 @@ import { StatisticsModule } from './statistics/statistics.module';
           synchronize: true,
         }
 ), BanksModule, CategoriesModule, TransactionsModule, StatisticsModule,],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
