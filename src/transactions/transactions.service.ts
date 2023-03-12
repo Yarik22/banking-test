@@ -16,16 +16,6 @@ export class TransactionsService {
     private readonly banksService:BanksService
   ){}
 
-  // async findTransactionsByCategoryIds(categoryIds: number[]): Promise<Transaction[]> {
-  //   const transactions = await this.transactionRepository
-  //     .createQueryBuilder('transaction')
-  //     .innerJoinAndSelect('transaction.categories', 'category')
-  //     .whereInIds(categoryIds)
-  //     .getMany();
-    
-  //   return transactions;
-  // }
-
   async createTransaction(data: CreateTransactionDto) {
     const categories= await this.categoriesService.findAllCategoriesByNames(data.categories)
     const bank=await this.banksService.findBankByName(data.bankName)
@@ -50,33 +40,17 @@ export class TransactionsService {
     },
     take: limit,
     skip: (page-1)*limit
-  })
+  ,relations:["categories", "bank"]})
   if(!transactions.length||limit>total){
     return await this.transactionRepository.findAndCount({
       order:{
         id:"ASC"
       },
       take: total,
-    })
+    relations:["categories", "bank"]})
   }
   return [transactions, total]
   }
-
-  // async getTransactionsByIdsAndPeriod(categoryIds:number[]){
-  //   const transactions = await this.transactionRepository
-  //   .createQueryBuilder('transaction')
-  //   .select('transaction.categories', 'category')
-  //   .where('category.id IN (:...categoryIds)', { categoryIds })
-  //   // .andWhere('transaction.createdAt >= :fromPeriod', { fromPeriod })
-  //   // .andWhere('transaction.createdAt <= :toPeriod', { toPeriod })
-  //   .getMany();
-  //   return transactions
-  // } 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} transaction`;
-  // }
-
-
 
   async deleteTransactionById(id: number) {
     const transaction = await this.transactionRepository.findOne({where:{id},relations:["bank"]})

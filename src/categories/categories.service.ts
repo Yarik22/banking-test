@@ -76,9 +76,12 @@ export class CategoriesService {
   }
 
   async deleteCategoryById(id:number):Promise<Category>{
-    const category = await this.categoryRepository.findOne({where:{id}})
+    const category = await this.categoryRepository.findOne({where:{id},relations:["transactions"]})
     if(!category){
       throw new HttpException("Category is not found",HttpStatus.NOT_FOUND)
+    }
+    if(category.transactions.length){
+      throw new HttpException("Category has transactions, delete them firstly",HttpStatus.CONFLICT)
     }
     await this.categoryRepository.delete(id)
     return category

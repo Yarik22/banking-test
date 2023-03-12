@@ -5,6 +5,7 @@ import { BanksModule } from './banks/banks.module';
 import { CategoriesModule } from './categories/categories.module';
 import { TransactionsModule } from './transactions/transactions.module';
 import { StatisticsModule } from './statistics/statistics.module';
+import { LoggerGo } from './logger.service';
 
 @Module({
   imports: [ 
@@ -21,6 +22,8 @@ import { StatisticsModule } from './statistics/statistics.module';
           database: process.env.POSTGRES_DB,
           autoLoadEntities: true,
           synchronize: true,
+          logging: true,
+          logger: "advanced-console"
         },
 ), BanksModule, CategoriesModule, TransactionsModule, StatisticsModule],
   controllers: [],

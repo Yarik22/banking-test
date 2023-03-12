@@ -7,14 +7,14 @@ export class PaginationDto {
     @Transform(({value})=>Number(value))
     @IsInt()
     @IsOptional()
-    @Min(1)
+    @Min(1,{message:"page should be more than 0"})
     readonly page: number = 1;
     @ApiProperty({example:10,description:"limit of given transactions in pagination (http param, max = 100)"})
     @Transform(({value})=>Number(value))
     @IsInt()
     @IsOptional()
-    @Min(1)
-    @Max(100)
+    @Min(1,{message:"limit should be more than 0"})
+    @Max(100,{message:"limit should be less than 101"})
     readonly limit: number = 5;
 
 

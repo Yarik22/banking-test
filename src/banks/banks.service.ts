@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateBankDto } from './dto/create-bank.dto';
@@ -9,6 +9,7 @@ import { Bank } from './entities/bank.entity';
 export class BanksService {
 
   constructor(
+    // private readonly logger = new Logger(BanksService.name),
     @InjectRepository(Bank) private readonly bankRepository:Repository<Bank>
   ){}
   //Useful methods
@@ -45,9 +46,12 @@ export class BanksService {
     return await this.bankRepository.findOne({where:{id}})
   }
   async deleteBankById(id:number):Promise<Bank>{
-    const bank = await this.bankRepository.findOne({where:{id}})
+    const bank = await this.bankRepository.findOne({where:{id},relations:["transactions"]})
     if(!bank){
       throw new HttpException("Bank is not found",HttpStatus.NOT_FOUND)
+    }
+    if(bank.transactions.length){
+      throw new HttpException("Bank has transactions, delete them firstly",HttpStatus.CONFLICT)
     }
     await this.bankRepository.delete(id)
     return bank
